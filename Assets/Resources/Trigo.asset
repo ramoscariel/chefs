@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Trigo
   m_EditorClassIdentifier: 
   resourceName: Trigo
-  description: 'Esta '
+  description: '-'
   image: {fileID: 0}
   processDuration: 2

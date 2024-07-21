@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class Activity : MonoBehaviour
@@ -24,7 +25,7 @@ public class Activity : MonoBehaviour
         }
         foreach (var controller in nearbyPlayerControllers)
         {
-           if(controller.carryingProduct == null && controller.working) 
+           if(controller.carryingProduct == null && controller.interactPressed) 
            {
                 break;
            }
@@ -51,7 +52,7 @@ public class Activity : MonoBehaviour
         else if(other.gameObject.CompareTag("Product"))
         {
             Product product = other.GetComponent<Product>();
-            if (requiredResources.Contains(product.product)) 
+            if (requiredResources.Contains(product.product) && !availableResources.Contains(product.product)) 
             {
                 availableResources.Add(product.Consume());
             }

@@ -22,6 +22,7 @@ public class PlayerSpawn : MonoBehaviour
         foreach (Transform point in spawnPoints)
         {
             PlayerInput playerInput = playerInputManager.JoinPlayer();
+            if (playerInput == null) { return; }
             playerInput.transform.position = point.position;
         }
     }

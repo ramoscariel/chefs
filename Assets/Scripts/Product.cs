@@ -10,14 +10,14 @@ public class Product : MonoBehaviour
         if (nearbyPlayerControllers.Count == 0) { return; }
         foreach (var controller in nearbyPlayerControllers)
         {
-            if (controller.carryingProduct == null && controller.working)
+            if (controller.carryingProduct == null && controller.interactPressed)
             {
                 controller.carryingProduct = this.gameObject;
                 transform.position = controller.carryingPoint.position;
                 transform.SetParent(controller.carryingPoint);
                 break;
             }
-            else if(controller.carryingProduct != null && !controller.working) 
+            else if(controller.carryingProduct != null && !controller.interactPressed) 
             {
                 controller.carryingProduct = null;
                 transform.SetParent(null);
@@ -33,7 +33,6 @@ public class Product : MonoBehaviour
             return;
         }
         nearbyPlayerControllers.Add(other.GetComponent<PlayerController>());
-        Debug.Log(nearbyPlayerControllers.Count);
     }
     private void OnTriggerExit(Collider other)
     {
@@ -42,7 +41,6 @@ public class Product : MonoBehaviour
             return;
         }
         nearbyPlayerControllers.Remove(other.GetComponent<PlayerController>());
-        Debug.Log(nearbyPlayerControllers.Count);
     }
 
     public Resource Consume()

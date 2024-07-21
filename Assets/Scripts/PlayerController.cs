@@ -7,8 +7,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float speed = 1f;
     [SerializeField] public Transform carryingPoint;
-    private Vector2 movementInput;
-    public bool working;
+    [SerializeField] private float rotationSpeed = 10f;
+    private Vector2 movementInput = Vector2.zero;
+
+    private float yRotation = 0f;
+    public bool interactPressed;
+    public bool acceleratePressed;
     public GameObject carryingProduct;
 
     private Rigidbody rb;
@@ -19,15 +23,29 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3(movementInput.x * speed, rb.velocity.y, movementInput.y * speed);
+        Vector3 movement = Vector3.zero;
+        if (acceleratePressed) 
+        {
+            movement = transform.forward * speed;
+        }
         rb.velocity = movement;
+    }
+    private void Update()
+    {
+        yRotation += movementInput.x * rotationSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.Euler(0, yRotation, 0);
     }
     public void OnMove(InputAction.CallbackContext ctx) 
     {
         movementInput = ctx.ReadValue<Vector2>();
     } 
-    public void OnWork(InputAction.CallbackContext ctx)
+    public void OnInteract(InputAction.CallbackContext ctx)
     {
-        working = ctx.ReadValue<float>() > 0.5f;
+        interactPressed = ctx.ReadValue<float>() > 0.5f;
+        Debug.Log("Interact Pressed");
+    }
+    public void OnAccelerate(InputAction.CallbackContext ctx)
+    {
+        acceleratePressed = ctx.ReadValue<float>() > 0.5f;
     }
 }
